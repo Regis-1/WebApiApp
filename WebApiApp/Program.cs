@@ -11,11 +11,29 @@ namespace WebApiApp
         {
             WebConnector wc = new WebConnector("https://api.covid19api.com/");
 
-            wc.SetRecentTotalByCountry("poland");
-            foreach (CountryData cd in JsonParser.ExtractListData<CountryData>(wc.Connect()))
+            #region SetPeriodTotalByCountry
+            DateTime t1 = new DateTime(2021, 3, 23);
+            DateTime t2 = new DateTime(2021, 3, 26);
+
+            wc.SetPeriodTotalByCountry("poland", t1, t2);
+            foreach (CountryData cd1 in JsonParser.ExtractListData<CountryData>(wc.Connect()))
             {
-                Console.WriteLine(cd.Country);
+                Console.WriteLine(cd1.Country + ": " +cd1.Confirmed.ToString());
             }
+            Console.WriteLine();
+            #endregion
+
+            #region SetRecentTotalByCountry
+            wc.SetRecentTotalByCountry("france");
+            CountryData cd2 = JsonParser.ExtractListData<CountryData>(wc.Connect())[0];
+            Console.WriteLine(cd2.Country + ": " + cd2.Confirmed.ToString()+"\n");
+            #endregion
+
+            #region SetGlobalSummary
+            wc.SetGlobalSummary();
+            GlobalData gd1 = JsonParser.ExtractSingleData<GlobalData>(wc.Connect(), "Global");
+            Console.WriteLine("Global: " + gd1.TotalConfirmed.ToString()+"\n");
+            #endregion
         }
     }
 }

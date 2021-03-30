@@ -46,14 +46,23 @@ namespace Engine
         {
             DateTime yesterday = DateTime.Now.AddDays(-1);
             DateTime dayBefore = yesterday.AddDays(-1);
-            string fYesterday = FormatDate(yesterday);
-            string fDayBefore = FormatDate(dayBefore);
+            SetPeriodTotalByCountry(country, dayBefore, yesterday);
+        }
+
+        /*
+         * Sets the connector for getting list of total data about given country
+         * for given period between two dates. t1 is not included in results!
+         */
+        public void SetPeriodTotalByCountry(string country, DateTime t1, DateTime t2)
+        {
+            string ft1 = FormatDate(t1);
+            string ft2 = FormatDate(t2);
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("from", fDayBefore);
-            parameters.Add("to", fYesterday);
+            parameters.Add("from", ft1);
+            parameters.Add("to", ft2);
 
-            SetConnection("total/country/"+country, parameters);
+            SetConnection("total/country/" + country, parameters);
         }
 
         public void SetGlobalSummary()
