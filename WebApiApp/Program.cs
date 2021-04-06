@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using Engine;
+using System.Data.Entity;
 
 namespace WebApiApp
 {
@@ -34,6 +36,20 @@ namespace WebApiApp
             GlobalData gd1 = JsonParser.ExtractSingleData<GlobalData>(wc.Connect(), "Global");
             Console.WriteLine("Global: " + gd1.TotalConfirmed.ToString()+"\n");
             #endregion
+
+            var context = new DataBase();
+            context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed });
+            //var st1 = context.GDB.First(x => x.GlobalDataBaseId == 1);
+            //context.GDB.Remove(st1);
+
+            context.SaveChanges();
+
+            var globalDataSets = (from s in context.GDB select s).ToList<GlobalDataBase>();
+            foreach (var st in globalDataSets)
+            {
+                Console.WriteLine("ID: {0}, Total Confirmed Cases: {1}", st.GlobalDataBaseId, st.TotalConfirmed);
+            }
+
         }
     }
 }
