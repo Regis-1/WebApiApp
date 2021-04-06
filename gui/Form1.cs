@@ -19,13 +19,33 @@ namespace gui
         {
             //Creating webconnector
             wc = new WebConnector("https://api.covid19api.com/");
-            //Date check if today's summary was added to database
-            //If not add today summary to database
-            //
-            //also...
-            //
-            //Show last 7 days of summary results
             InitializeComponent();
+
+            DateTime today = DateTime.Today;
+            var context = new DataBase();
+            bool existance = false;
+
+            if (context.GDB.Any(record => record.DateDataBase == today)) existance = true;
+
+            if (!existance)
+            {
+                wc.SetGlobalSummary();
+                GlobalData gd1 = JsonParser.ExtractSingleData<GlobalData>(wc.Connect(), "Global");
+                context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed, DateDataBase = today });
+                context.SaveChanges();
+
+            }
+
+            if (existance) Console.WriteLine("Todays data already in the data base.");
+            else if (!existance) Console.WriteLine("Todays data added.");
+
+            var globalDataSets = (from s in context.GDB select s).ToList<GlobalDataBase>();
+            lbGlobal.Items.Clear();
+            lbGlobal.Items.Add("Global summary history:");
+            foreach (var st in globalDataSets)
+            {
+                lbGlobal.Items.Add("Cases: "+st.TotalConfirmed.ToString()+" - "+st.DateDataBase.ToString("dd/MM/yyyy"));
+            }
         }
 
         private void btnShow_Click(object sender, EventArgs e)

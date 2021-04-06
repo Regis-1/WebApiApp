@@ -74,11 +74,9 @@ namespace gui
             // 
             // lbGlobal
             // 
-            this.lbGlobal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbGlobal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbGlobal.FormattingEnabled = true;
-            this.lbGlobal.ItemHeight = 18;
-            this.lbGlobal.Items.AddRange(new object[] {
-            "Global summary for last 7 days:"});
+            this.lbGlobal.ItemHeight = 15;
             this.lbGlobal.Location = new System.Drawing.Point(13, 13);
             this.lbGlobal.Name = "lbGlobal";
             this.lbGlobal.Size = new System.Drawing.Size(219, 184);
