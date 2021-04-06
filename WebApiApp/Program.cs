@@ -36,9 +36,9 @@ namespace WebApiApp
             GlobalData gd1 = JsonParser.ExtractSingleData<GlobalData>(wc.Connect(), "Global");
             Console.WriteLine("Global: " + gd1.TotalConfirmed.ToString()+"\n");
             #endregion
-
+            DateTime today = DateTime.Now;
             var context = new DataBase();
-            context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed });
+            context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed, DateDataBase = today.Date });
             //var st1 = context.GDB.First(x => x.GlobalDataBaseId == 1);
             //context.GDB.Remove(st1);
 
@@ -47,7 +47,7 @@ namespace WebApiApp
             var globalDataSets = (from s in context.GDB select s).ToList<GlobalDataBase>();
             foreach (var st in globalDataSets)
             {
-                Console.WriteLine("ID: {0}, Total Confirmed Cases: {1}", st.GlobalDataBaseId, st.TotalConfirmed);
+                Console.WriteLine("ID: {0}, Total Confirmed Cases: {1}, Date: {2}", st.GlobalDataBaseId, st.TotalConfirmed, st.DateDataBase);
             }
 
         }

@@ -11,7 +11,7 @@ namespace Engine
     {
         public int GlobalDataBaseId { get; set; }
         public long TotalConfirmed { get; set; } 
-        
+        public DateTime DateDataBase { get; set; }
     }
     public class DataBase : DbContext
     {
