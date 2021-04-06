@@ -37,15 +37,16 @@ namespace WebApiApp
             Console.WriteLine("Global: " + gd1.TotalConfirmed.ToString()+"\n");
             #endregion
 
-            DateTime today = DateTime.Now;
+            #region DataBase
+            DateTime today = DateTime.Today;
             var context = new DataBase();
             bool existance = false;
-
-            if (context.GDB.Any(record => record.DateDataBase == today.Date)) existance = true;
+          
+            if (context.GDB.Any(record => record.DateDataBase == today)) existance = true;
             
             if (!existance)
             {
-                context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed, DateDataBase = today.Date });
+                context.GDB.Add(new GlobalDataBase { TotalConfirmed = gd1.TotalConfirmed, DateDataBase = today });
                 //var st1 = context.GDB.First(x => x.GlobalDataBaseId == 1);
                 //context.GDB.Remove(st1);
                 context.SaveChanges();
@@ -58,9 +59,9 @@ namespace WebApiApp
             var globalDataSets = (from s in context.GDB select s).ToList<GlobalDataBase>();
             foreach (var st in globalDataSets)
             {
-                Console.WriteLine("ID: {0}, Total Confirmed Cases: {1}, Date: {2}", st.GlobalDataBaseId, st.TotalConfirmed, st.DateDataBase);
+                Console.WriteLine("ID: {0}, Total Confirmed Cases: {1}, Date: {2}", st.GlobalDataBaseId, st.TotalConfirmed, st.DateDataBase.ToString("dd/MM/yyyy"));
             }
-
+            #endregion
         }
     }
 }
