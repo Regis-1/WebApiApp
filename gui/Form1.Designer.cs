@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Threading;
+
 namespace gui
 {
     partial class Form1
@@ -143,6 +146,9 @@ namespace gui
             this.ResumeLayout(false);
             this.PerformLayout();
 
+            Thread.Sleep(2500);
+
+            Console.WriteLine("\n***GUI initialized! ;) ***\n");
         }
 
         #endregion
